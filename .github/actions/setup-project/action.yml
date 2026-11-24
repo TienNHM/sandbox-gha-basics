@@ -1,0 +1,21 @@
+name: Cài project Node
+description: Cài Node.js có cache npm, rồi cài thư viện bằng npm ci
+
+inputs:
+  node-version:
+    description: "Phiên bản Node.js"
+    required: false
+    default: "24"
+
+runs:
+  using: composite
+  steps:
+    - name: Cài Node.js
+      uses: actions/setup-node@v7
+      with:
+        node-version: ${{ inputs.node-version }}
+        cache: npm
+
+    - name: Cài thư viện
+      run: npm ci
+      shell: bash
