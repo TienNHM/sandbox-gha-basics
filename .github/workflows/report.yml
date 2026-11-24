@@ -1,0 +1,45 @@
+name: Test report
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - name: Chạy test, lưu kết quả ra file
+        shell: bash
+        run: npm test 2>&1 | tee test-report.txt
+
+      - name: Upload báo cáo test
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: test-report
+          path: test-report.txt
+          retention-days: 7
+
+  summary:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Tải báo cáo test
+        uses: actions/download-artifact@v8
+        with:
+          name: test-report
+
+      - name: In số test qua và trượt
+        run: grep -E "^ℹ (pass|fail)" test-report.txt
