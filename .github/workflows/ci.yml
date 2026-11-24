@@ -10,28 +10,10 @@ permissions:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         node-version: [22, 24, 26]
-    steps:
-      - uses: actions/checkout@v7
-
-      - name: Cài Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v7
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: npm
-
-      - run: npm ci
-
-      - name: Chạy test, lưu kết quả ra file
-        shell: bash
-        run: npm test 2>&1 | tee test-report.txt
-
-      - uses: actions/upload-artifact@v7
-        if: always()
-        with:
-          name: test-report-node-${{ matrix.node-version }}
-          path: test-report.txt
+    uses: ./.github/workflows/node-test.yml
+    with:
+      node-version: ${{ matrix.node-version }}

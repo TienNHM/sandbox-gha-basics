@@ -1,0 +1,13 @@
+# deploy.yml, workflow được gọi
+on:
+  workflow_call:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - env:
+          DEPLOY_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+        run: |
+          echo "Có token deploy: ${#DEPLOY_TOKEN} ký tự"
