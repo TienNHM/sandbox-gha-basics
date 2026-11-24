@@ -12,7 +12,8 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Chào
-        run: echo "Kết quả: xong"
+        run: |
+          echo "Kết quả: xong"
 
       - name: Xem các file trong repo
         run: ls -la
