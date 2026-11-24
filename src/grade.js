@@ -11,7 +11,7 @@ function average(scores) {
 function classify(avg) {
   if (avg >= 8) return "Giỏi";
   if (avg >= 6.5) return "Khá";
-  if (avg > 5) return "Trung bình";
+  if (avg >= 5) return "Trung bình";
   return "Yếu";
 }
 
