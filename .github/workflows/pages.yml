@@ -3,6 +3,7 @@ name: Deploy Pages
 on:
   push:
     branches: [main]
+  pull_request:
   workflow_dispatch:
 
 # Quyền tối thiểu cho mọi job. Job nào cần thêm thì tự xin.
@@ -10,7 +11,21 @@ permissions:
   contents: read
 
 jobs:
+  check-links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Kiểm tra link hỏng
+        uses: lycheeverse/lychee-action@v2.9.0
+        with:
+          args: --offline --no-progress '**/*.html'
+          fail: true
+
   build:
+    needs: check-links
+    # Chỉ đóng gói và deploy khi push lên main hoặc bấm Run workflow, không làm từ pull request
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
