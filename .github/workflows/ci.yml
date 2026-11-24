@@ -17,3 +17,15 @@ jobs:
     uses: ./.github/workflows/node-test.yml
     with:
       node-version: ${{ matrix.node-version }}
+
+  thank-you:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Cảm ơn người mở PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: gh pr comment "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --body "Cảm ơn bạn! CI đang chạy."

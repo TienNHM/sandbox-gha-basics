@@ -1,0 +1,24 @@
+# SAI: dễ bị script injection, đừng chép
+name: Chào PR
+
+on: pull_request
+
+permissions:
+  contents: read
+
+jobs:
+  greet:
+    runs-on: ubuntu-latest
+    steps:
+      - name: In tiêu đề PR
+        run: |
+          echo "Tiêu đề PR: ${{ github.event.pull_request.title }}"
+
+  greet-safe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: In tiêu đề PR
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          echo "Tiêu đề PR: $PR_TITLE"
