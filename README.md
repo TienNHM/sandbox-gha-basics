@@ -1,2 +1,5 @@
 # sandbox-gha-basics
-Repo nháp để chạy thử track gha-basics của HCMUTE DSC Learning Hub; xóa sau khi xong
+
+[![CI](https://github.com/TienNHM/sandbox-gha-basics/actions/workflows/ci.yml/badge.svg)](https://github.com/TienNHM/sandbox-gha-basics/actions/workflows/ci.yml)
+
+Repo thử nghiệm cho track GitHub Actions cơ bản.

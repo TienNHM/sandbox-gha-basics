@@ -9,7 +9,7 @@ function average(scores) {
 
 // Xếp loại theo điểm trung bình
 function classify(avg) {
-  if (avg >= 9) return "Giỏi";
+  if (avg >= 8) return "Giỏi";
   if (avg >= 6.5) return "Khá";
   if (avg >= 5) return "Trung bình";
   return "Yếu";
