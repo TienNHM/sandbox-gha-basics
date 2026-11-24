@@ -1,0 +1,28 @@
+name: Env demo
+
+on: workflow_dispatch
+
+permissions:
+  contents: read
+
+env:
+  GREETING: Xin chào        # cấp workflow: mọi job thấy
+
+jobs:
+  show:
+    runs-on: ubuntu-latest
+    env:
+      TARGET: runner        # cấp job: mọi step của job show thấy
+    steps:
+      - name: In biến
+        env:
+          NAME: An          # cấp step: chỉ step này thấy
+        run: echo "$GREETING $NAME từ $TARGET, commit $GITHUB_SHA"
+
+      - name: Biến của step trước
+        run: echo "NAME bây giờ là '$NAME'"
+      - name: Đọc biến cấu hình
+        env:
+          SITE_NAME: ${{ vars.SITE_NAME }}
+        run: |
+          echo "Tên site: $SITE_NAME"
