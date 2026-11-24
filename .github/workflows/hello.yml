@@ -13,4 +13,4 @@ jobs:
         run: echo "Xin chào từ ${{ github.repository }}, commit ${{ github.sha }}"
 
       - name: Xem các file trong repo
-        run: ls -la
+        run: ls thu-muc-khong-co
