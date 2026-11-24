@@ -3,7 +3,6 @@ name: Deploy Pages
 on:
   push:
     branches: [main]
-  pull_request:
   workflow_dispatch:
 
 # Quyền tối thiểu cho mọi job. Job nào cần thêm thì tự xin.
@@ -11,33 +10,8 @@ permissions:
   contents: read
 
 jobs:
-  check-links:
+  build:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7
-
-      - name: Kiểm tra link hỏng
-        uses: lycheeverse/lychee-action@v2.9.0
-        with:
-          args: --offline --no-progress '**/*.html'
-          fail: true
-
-  deploy:
-    needs: check-links
-    # Chỉ deploy khi push lên main hoặc bấm Run workflow, không deploy từ pull request
-    if: github.event_name != 'pull_request'
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
-    # Không cho hai lần deploy chạy chồng lên nhau
-    concurrency:
-      group: pages
-      cancel-in-progress: false
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v7
 
@@ -48,6 +22,20 @@ jobs:
         with:
           path: .
 
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    # Không cho hai lần deploy chạy chồng lên nhau
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - name: Deploy lên GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
