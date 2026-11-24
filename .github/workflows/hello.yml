@@ -1,0 +1,16 @@
+name: Hello
+
+on: push
+
+jobs:
+  hello:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Lấy code về runner
+        uses: actions/checkout@v7
+
+      - name: Chào
+        run: echo "Xin chào từ ${{ github.repository }}, commit ${{ github.sha }}"
+
+      - name: Xem các file trong repo
+        run: ls -la
